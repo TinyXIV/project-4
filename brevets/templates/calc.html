@@ -51,7 +51,7 @@
          <!-- Design on bootstrap grid -->
          <form role="form">
             <div class="row">
-               <div class="col-md-4">
+				<div class="col-md-4">
                   <label>Distance</label>
                   <select name="distance" id="brevet_dist_km">
                      <option value="200">200km</option>
@@ -123,9 +123,15 @@
               var km = control.find("input[name='km']").val();
               var open_time_field = control.find("input[name='open']");
               var close_time_field = control.find("input[name='close']");
-
-              $.getJSON(TIME_CALC_URL, {km: km}).done(
-                function(data) {
+              // Missing inputs
+              var distance = $('#brevet_dist_km').val();
+              var start_time = $('#begin_date').val();
+              
+              $.getJSON(TIME_CALC_URL, {
+                  km: km,
+                  distance: distance,
+                  start_time: start_time
+                  }).done(function(data) {
                    var times = data.result;
                    console.log("Got a response: ");
                    console.log("Response.open = " + times.open);
@@ -153,6 +159,8 @@
                        var target = control_entry.find("input[name='km']");
                        target.val( km );
                        // Then calculate times for this entry
+                       var open_time_field = control_entry.find("input[name='open']");
+                       var close_time_field = control_entry.find("input[name='close']");
                        calc_times(control_entry);
                     });
 
@@ -165,6 +173,8 @@
                        var target = control_entry.find("input[name='miles']");
                        target.val( miles );
                        // Then calculate times for this entry
+                       var open_time_field = control_entry.find("input[name='open']");
+                       var close_time_field = control_entry.find("input[name='close']");
                        calc_times(control_entry);
                     });
 
